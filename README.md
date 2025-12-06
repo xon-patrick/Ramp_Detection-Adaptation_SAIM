@@ -1,9 +1,137 @@
 # Ramp_Detection-Adaptation_SAIM
 
-## Descriere 
+**Disciplina:** Rețele Neuronale  
+**Instituție:** POLITEHNICA București – FIIR  
+**Student:** Andrei Patrick-Cristian 
+**Data:** [Data]  
+
+
+## Introducere
+
 **Ramp_Detection-Adaptation_SAIM** este un proiect dedicat dezvoltarii unui sistem autonom pentru detectarea si adaptarea la rampe si denivelari in medii variate, folosind simulare si date reale pentru antrenarea retelelor neuronale. Robotul identifica automat tipul denivelarii si adapteaza viteza motoarelor pentru o navigatie sigura si eficienta, atat indoor, cat si outdoor.
 
 Proiectul combina simularea cu **Gazebo**, colectarea de date prin **ROSbag**, si prelucrarea informatiilor provenite de la senzori precum **LiDAR**, **Camera RGB**, **IMU** si **encoderele motoarelor**.
+
+
+Acest document descrie activitățile realizate în **Etapa 3**, în care se analizează și se preprocesează setul de date necesar proiectului „Rețele Neuronale". Scopul etapei este pregătirea corectă a datelor pentru instruirea modelului RN, respectând bunele practici privind calitatea, consistența și reproductibilitatea datelor.
+
+---
+
+##  1. Structura Repository-ului Github (versiunea Etapei 3)
+
+```
+project-name/
+├── README.md
+├── docs/
+│   └── datasets/          # descriere seturi de date, surse, diagrame
+├── data/
+│   ├── images/
+│   ├── labels/
+│   └── README.md
+├── src/
+│   ├── preprocessing/     # funcții pentru preprocesare
+│   ├── data_acquisition/  # generare / achiziție date (dacă există)
+│   └── neural_network/    # implementarea RN (în etapa următoare)
+└──config/                # fișiere de configurare
+ ```
+ 
+---
+
+##  2. Descrierea Setului de Date
+
+### 2.1 Sursa datelor
+
+* **Origine:**
+- Obtinere de informatii folosind senzori reali de pe un Sistem Autonom Mobil Inteligent (Camera RGB, LiDAR, IMU)
+- Obtinerea de informatii folosind senzori Simulatii in Gazebo (Camera RGB, LiDAR, IMU)
+
+* **Modul de achiziție:**  Senzori reali & Simulare
+* **Perioada / condițiile colectării:** Decembrie 2025 - Ianuarie 2025 (hol public cu diferite iluminari)
+
+### 2.2 Caracteristicile dataset-ului
+**Tipuri de date:** Numerice & Imagini
+* **Format fișiere:**  CSV / PNG / .db
+---
+
+| Caracteristica | Tip | Unitate | Descriere | Domeniu valori |
+|----------------|------|---------|-----------|----------------|
+| image | imagine | px | Imagine RGB capturata de camera robotului | 640x480 |
+| bbox_xcenter | numeric | proportie | Centru bounding box | 0–1 |
+| bbox_ycenter | numeric | proportie | Centru bounding box | 0–1 |
+| bbox_width | numeric | proportie | Latime box | 0–1 |
+| bbox_height | numeric | proportie | Inaltime box | 0–1 |
+| class_id | categorial | – | Tip rampa | {0, 1, 2} |
+
+### Clase YOLO:
+
+| ID | Nume clasa | Descriere |
+|----|------------|-----------|
+| 0 | ramp_up | Rampa de urcat |
+| 1 | ramp_down | Rampa de coborat |
+| 2 | flat_transition | Zona inclinata mica / trecere |
+
+---
+
+##  3. Analiza Exploratorie a Datelor (EDA) – Sintetic
+
+### 3.1 Statistici descriptive aplicate
+- Iluminare variabila intre scene
+- Distanta pana la rampa: 0.5–5 metri
+
+### 3.2 Calitate date
+- Blur
+- Unele imagini sunt prea populate de persoane
+- Necesara eliminarea imaginilor fara rampa vizibila
+
+### 3.3 Probleme identificate
+- Reflexii pe suprafete metalice → artefacte YOLO
+- Lumina variabila
+
+---
+
+## 4. Preprocesarea Datelor
+
+### 4.1 Curatarea datelor
+- Eliminare frame-uri duplicate din rosbag
+- Eliminare imagini fara rampa
+- Extragerea imaginilor:
+```bash
+ros2 bag record /camera/compressed_raw /scan
+```
+### 4.2 Transformarea caracteristicilor
+* **Conversie Imagine:** JPG
+* **Normalizare:** Min–Max / Standardizare
+* **Encoding pentru variabile categoriale**
+* **Ajustarea dezechilibrului de clasă**
+
+### 4.3 Structurarea seturilor de date
+
+* 80% – train
+* 10% – validation
+* 10% – test
+
+### 4.4 Salvarea rezultatelor preprocesării
+
+* Date preprocesate în `data/processed/`
+* Seturi train/val/test în foldere dedicate	
+
+---
+
+##  5. Fișiere Generate în Această Etapă
+
+* `data/raw/` – date brute
+* `data/processed/` – date curățate & transformate
+* `data/train/`, `data/validation/`, `data/test/` – seturi finale
+* `src/preprocessing/` – codul de preprocesare
+* `data/README.md` – descrierea dataset-ului
+
+---
+##  6. Stare Etapă 
+- [X] Structură repository configurată
+- [X] Dataset analizat (EDA realizată)
+- [ ] Date preprocesate
+- [ ] Seturi train/val/test generate
+- [X] Documentație actualizată în README + `data/README.md`
 
 ---
 
