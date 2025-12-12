@@ -25,8 +25,14 @@ project-name/
 ├── docs/
 │   └── datasets/          # descriere seturi de date, surse, diagrame
 ├── data/
-│   ├── images/
-│   ├── labels/
+│   ├── raw/               # date brute
+│   ├── processed/         # date curățate și transformate
+│   ├── train/             # set de instruire
+│   ├── validation/        # set de validare
+│   ├── test/              # set de testare
+│   ├── README.dataset.txt
+│   ├──data.yaml
+│   ├── README.roboflow.txt
 │   └── README.md
 ├── src/
 │   ├── preprocessing/     # funcții pentru preprocesare
@@ -50,7 +56,7 @@ project-name/
 
 ### 2.2 Caracteristicile dataset-ului
 **Tipuri de date:** Numerice & Imagini
-* **Format fișiere:**  CSV / PNG / .db
+* **Format fișiere:**  .txt / PNG / .db
 ---
 
 | Caracteristica | Tip | Unitate | Descriere | Domeniu valori |
@@ -66,9 +72,9 @@ project-name/
 
 | ID | Nume clasa | Descriere |
 |----|------------|-----------|
-| 0 | ramp_up | Rampa de urcat |
-| 1 | ramp_down | Rampa de coborat |
-| 2 | flat_transition | Zona inclinata mica / trecere |
+| 0 | rampUp | Rampa de urcat |
+| 1 | rampDown | Rampa de coborat |
+| 2 | railing | Zona inclinata mica / trecere |
 
 ---
 
@@ -77,6 +83,7 @@ project-name/
 ### 3.1 Statistici descriptive aplicate
 - Iluminare variabila intre scene
 - Distanta pana la rampa: 0.5–5 metri
+- poze de pe rampa
 
 ### 3.2 Calitate date
 - Blur
@@ -106,9 +113,9 @@ ros2 bag record /camera/compressed_raw /scan
 
 ### 4.3 Structurarea seturilor de date
 
-* 80% – train
-* 10% – validation
-* 10% – test
+* 70% – train
+* 15% – validation
+* 15% – test
 
 ### 4.4 Salvarea rezultatelor preprocesării
 
@@ -120,7 +127,6 @@ ros2 bag record /camera/compressed_raw /scan
 ##  5. Fișiere Generate în Această Etapă
 
 * `data/raw/` – date brute
-* `data/processed/` – date curățate & transformate
 * `data/train/`, `data/validation/`, `data/test/` – seturi finale
 * `src/preprocessing/` – codul de preprocesare
 * `data/README.md` – descrierea dataset-ului
@@ -129,8 +135,8 @@ ros2 bag record /camera/compressed_raw /scan
 ##  6. Stare Etapă 
 - [X] Structură repository configurată
 - [X] Dataset analizat (EDA realizată)
-- [ ] Date preprocesate
-- [ ] Seturi train/val/test generate
+- [X] Date preprocesate
+- [X] Seturi train/val/test generate
 - [X] Documentație actualizată în README + `data/README.md`
 
 ---

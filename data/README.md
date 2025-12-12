@@ -7,19 +7,21 @@ Acest folder contine datele brute colectate cu ROS2, datele procesate si dataset
 ## 1. Continutul folderului `data/`
 ```bash
 data/
-├──labels/
-│   ├── raw/               
-│   ├── processed/         
-│   ├── train/             
-│   ├── validation/        
-│   └── test/
-├──labels/
-│   ├── raw/               
-│   ├── processed/         
-│   ├── train/             
-│   ├── validation/        
-│   └── test/
-└──README.md 
+├── raw/                 
+│   └── iamgini...
+├── test/
+│   ├── images/                     
+│   └── labels/
+├── train/
+│   ├── images/                     
+│   └── labels/
+├── valid/
+│   ├── images/                     
+│   └── labels/
+├── data.yaml
+├── README.dataset.txt
+├── README.roboflow.txt
+└── README.md 
 ```
 
 ---
@@ -80,9 +82,9 @@ ros2 bag record /camera/compressed_raw
 ## 4. Statistici de baza ale dataset-ului
 
 ### Distributia claselor (estimare)
-- ramp_up: 
-- ramp_down: 
-- flat_transition:
+- rampUp: 45
+- rampDown: 35
+- railing: 70
 
 ### Probleme observate
 - variatii semnificative de iluminare
@@ -90,9 +92,9 @@ ros2 bag record /camera/compressed_raw
 ## 6. Seturi finale
 
 ### Proportii dorite:
-- **80%** train  
-- **10%** val  
-- **10%** test
+- **70%** train  
+- **15%** val  
+- **15%** test
 
 ---
 
@@ -100,7 +102,9 @@ ros2 bag record /camera/compressed_raw
 
 | Versiune | Descriere | Continut |
 |----------|-----------|----------|
-| v0.1 | Date brute | rosbags |
+| v0.1 | Date brute | rosbags .db|
+| v0.2 | Date brute procesate | imagini .png|
+| v0.3 | Date procesate si impartite train/test/val| imagini .png|
 
 ---
 
@@ -108,4 +112,5 @@ ros2 bag record /camera/compressed_raw
 
 - Toate imaginile sunt capturate direct de camera robotului (USB Camera 640x480).
 - Fisierele rosbag permit recrearea dataset-ului daca se modifica pipeline-ul.
+- imaginile si etichetele generate folosind roboflow
 
