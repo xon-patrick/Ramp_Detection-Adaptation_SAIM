@@ -64,7 +64,6 @@ urcarea si coborarea pe rampa de la intrarea in F.I.I.R. si in jurul acesteia. A
 
 **Dovezi:**
 - Grafic comparativ: `docs/generated_vs_real.png`
-- Setup experimental: `docs/acquisition_setup.jpg` (dacă aplicabil)
 - Tabel statistici: `docs/data_statistics.csv`
 ```
 ---

@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 3
+names: ['rampDown', 'rampUp', 'ramps-railing']
+
+roboflow:
+  workspace: proiectrn-cpsid
+  project: saim-rampdetect
+  version: 2
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/proiectrn-cpsid/saim-rampdetect/dataset/2
