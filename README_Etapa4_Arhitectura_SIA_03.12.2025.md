@@ -181,25 +181,25 @@ Toate cele 3 module trebuie să **pornească și să ruleze fără erori** la pr
 #### **Modul 1: Data Logging / Acquisition**
 
 **Funcționalități obligatorii:**
-- [ ] Cod rulează fără erori: `python src/data_acquisition/generate.py` sau echivalent LabVIEW
+- [X] Cod rulează fără erori: `python src/data_acquisition/generate.py` sau echivalent LabVIEW
 - [ ] Generează CSV în format compatibil cu preprocesarea din Etapa 3
-- [ ] Include minimum 40% date originale în dataset-ul final
-- [ ] Documentație în cod: ce date generează, cu ce parametri
+- [X] Include minimum 40% date originale în dataset-ul final
+- [X] Documentație în cod: ce date generează, cu ce parametri
 
 #### **Modul 2: Neural Network Module**
 
 **Funcționalități obligatorii:**
-- [ ] Arhitectură RN definită și compilată fără erori
-- [ ] Model poate fi salvat și reîncărcat
-- [ ] Include justificare pentru arhitectura aleasă (în docstring sau README)
+- [X] Arhitectură RN definită și compilată fără erori
+- [X] Model poate fi salvat și reîncărcat
+- [X] Include justificare pentru arhitectura aleasă (în docstring sau README)
 - [ ] **NU trebuie antrenat** cu performanță bună (weights pot fi random)
 
 
 #### **Modul 3: Web Service / UI**
 
 **Funcționalități MINIME obligatorii:**
-- [ ] Propunere Interfață ce primește input de la user (formular, file upload, sau API endpoint)
-- [ ] Includeți un screenshot demonstrativ în `docs/screenshots/`
+- [X] Propunere Interfață ce primește input de la user (formular, file upload, sau API endpoint)
+- [X] Includeți un screenshot demonstrativ în `docs/screenshots/`
 
 **Ce NU e necesar în Etapa 4:**
 - UI frumos/profesionist cu grafică avansată
@@ -254,8 +254,8 @@ proiect-rn-[nume-prenume]/
 
 ### Documentație și Structură
 - [ ] Tabelul Nevoie → Soluție → Modul complet (minimum 2 rânduri cu exemple concrete completate in README_Etapa4_Arhitectura_SIA.md)
-- [ ] Declarație contribuție 40% date originale completată în README_Etapa4_Arhitectura_SIA.md
-- [ ] Cod generare/achiziție date funcțional și documentat
+- [X] Declarație contribuție 40% date originale completată în README_Etapa4_Arhitectura_SIA.md
+- [X] Cod generare/achiziție date funcțional și documentat
 - [ ] Dovezi contribuție originală: grafice + log + statistici în `docs/`
 - [ ] Diagrama State Machine creată și salvată în `docs/state_machine.*`
 - [ ] Legendă State Machine scrisă în README_Etapa4_Arhitectura_SIA.md (minimum 1-2 paragrafe cu justificare)
@@ -276,8 +276,8 @@ proiect-rn-[nume-prenume]/
 - [ ] README în `src/neural_network/` cu detalii arhitectură curentă
 
 ### Modul 3: Web Service / UI
-- [ ] Propunere Interfață ce pornește fără erori (comanda de lansare testată)
-- [ ] Screenshot demonstrativ în `docs/screenshots/ui_demo.png`
+- [x] Propunere Interfață ce pornește fără erori (comanda de lansare testată)
+- [x] Screenshot demonstrativ în `docs/screenshots/ui_demo.png`
 - [ ] README în `src/app/` cu instrucțiuni lansare (comenzi exacte)
 
 ---
