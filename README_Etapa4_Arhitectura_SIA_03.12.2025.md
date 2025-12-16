@@ -110,7 +110,7 @@ VALIDATE_IMAGE (blur check, brightness) →
 
 #### C. Predicție traiectorii robot mobil (AGV, AMR în depozit):
 ```
-IDLE → LOAD_MAP → RECEIVE_TARGET → PLAN_PATH → 
+IDLE → LOAD_MAP → FOLLOW_PATH → DETECT RAMP IN PATH → CLASSIFY RAMP TYPE → 
 VALIDATE_PATH (obstacle check) →
   ├─ [Clear] → EXECUTE_SEGMENT → ACQUIRE_SENSORS (LIDAR, IMU) → 
               RN_PREDICT_NEXT_STATE → UPDATE_TRAJECTORY → 
