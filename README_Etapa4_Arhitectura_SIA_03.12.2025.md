@@ -62,106 +62,37 @@ urcarea si coborarea pe rampa de la intrarea in F.I.I.R. si in jurul acesteia. A
 
 **Locația codului:** `src/data_acquisition/extract_images.py`
 
-**Dovezi:**
-- Grafic comparativ: `docs/generated_vs_real.png`
-- Tabel statistici: `docs/data_statistics.csv`
 ```
 ---
 
 ### 3. Diagrama State Machine a Întregului Sistem (OBLIGATORIE)
 
-**Cerințe:**
-- **Minimum 4-6 stări clare** cu tranziții între ele
-- **Formate acceptate:** PNG/SVG, pptx, draw.io 
-- **Locație:** `docs/state_machine.*` (orice extensie)
-- **Legendă obligatorie:** 1-2 paragrafe în acest README: "De ce ați ales acest State Machine pentru nevoia voastră?"
-
-**Stări tipice pentru un SIA:**
-```
-IDLE → ACQUIRE_DATA → PREPROCESS → INFERENCE → DISPLAY/ACT → LOG → [ERROR] → STOP
-                ↑______________________________________________|
-```
-
-**Exemple concrete per domeniu de inginerie:**
-
-#### A. Monitorizare continuă proces industrial (vibrații motor, temperaturi, presiuni):
-```
-IDLE → START_ACQUISITION → COLLECT_SENSOR_DATA → BUFFER_CHECK → 
-PREPROCESS (filtrare, FFT) → RN_INFERENCE → THRESHOLD_CHECK → 
-  ├─ [Normal] → LOG_RESULT → UPDATE_DASHBOARD → COLLECT_SENSOR_DATA (loop)
-  └─ [Anomalie] → TRIGGER_ALERT → NOTIFY_OPERATOR → LOG_INCIDENT → 
-                  COLLECT_SENSOR_DATA (loop)
-       ↓ [User stop / Emergency]
-     SAFE_SHUTDOWN → STOP
-```
-
-#### B. Clasificare imagini defecte producție (suduri, suprafețe, piese):
-```
-IDLE → WAIT_TRIGGER (senzor trecere piesă) → CAPTURE_IMAGE → 
-VALIDATE_IMAGE (blur check, brightness) → 
-  ├─ [Valid] → PREPROCESS (resize, normalize) → RN_INFERENCE → 
-              CLASSIFY_DEFECT → 
-                ├─ [OK] → LOG_OK → CONVEYOR_PASS → IDLE
-                └─ [DEFECT] → LOG_DEFECT → TRIGGER_REJECTION → IDLE
-  └─ [Invalid] → ERROR_IMAGE_QUALITY → RETRY_CAPTURE (max 3×) → IDLE
-       ↓ [Shift end]
-     GENERATE_REPORT → STOP
-```
-
-#### C. Predicție traiectorii robot mobil (AGV, AMR în depozit):
-```
-IDLE → LOAD_MAP → FOLLOW_PATH → DETECT RAMP IN PATH → CLASSIFY RAMP TYPE → 
-VALIDATE_PATH (obstacle check) →
-  ├─ [Clear] → EXECUTE_SEGMENT → ACQUIRE_SENSORS (LIDAR, IMU) → 
-              RN_PREDICT_NEXT_STATE → UPDATE_TRAJECTORY → 
-                ├─ [Target reached] → STOP_AT_TARGET → LOG_MISSION → IDLE
-                └─ [In progress] → EXECUTE_SEGMENT (loop)
-  └─ [Obstacle detected] → REPLAN_PATH → VALIDATE_PATH
-       ↓ [Emergency stop / Battery low]
+```bash
+IDLE → INIT_ROS2 → LOAD_MODEL → WAIT_MISSION →
+ACQUIRE_SENSORS (camera / lidar / IMU) →
+PREPROCESS_INPUT →
+RN_INFERENCE (Ramp Detection) →
+  ├─ [No ramp detected] → EXPLORE / NAVIGATE_DEFAULT →
+  |                        ACQUIRE_SENSORS (loop)
+  |
+  └─ [Ramp detected] → VALIDATE_RAMP →
+        ├─ [Valid ramp] → ESTIMATE_RAMP_POSE →
+        |               PLAN_APPROACH →
+        |               FOLLOW_RAMP →
+        |               MONITOR_STABILITY →
+        |                 ├─ [Ramp lost] → REACQUIRE_RAMP →
+        |                 |                ACQUIRE_SENSORS
+        |                 |
+        |                 ├─ [Ramp completed] → EXIT_RAMP →
+        |                 |                    LOG_MISSION →
+        |                 |                    WAIT_MISSION
+        |                 |
+        |                 └─ [Error] → ERROR
+        |
+        └─ [False positive] → IGNORE_DETECTION →
+                              ACQUIRE_SENSORS
+       ↓ [Emergency / Sensor failure / Low battery]
      SAFE_STOP → LOG_STATUS → STOP
-```
-
-#### D. Predicție consum energetic (turbine eoliene, procese batch):
-```
-IDLE → LOAD_HISTORICAL_DATA → ACQUIRE_CURRENT_CONDITIONS 
-(vânt, temperatură, demand) → PREPROCESS_FEATURES → 
-RN_FORECAST (24h ahead) → VALIDATE_FORECAST (sanity checks) →
-  ├─ [Valid] → DISPLAY_FORECAST → UPDATE_CONTROL_STRATEGY → 
-              LOG_PREDICTION → WAIT_INTERVAL (1h) → 
-              ACQUIRE_CURRENT_CONDITIONS (loop)
-  └─ [Invalid] → ERROR_FORECAST → USE_FALLBACK_MODEL → LOG_ERROR → 
-                ACQUIRE_CURRENT_CONDITIONS (loop)
-       ↓ [User request report]
-     GENERATE_DAILY_REPORT → STOP
-```
-
-**Notă pentru proiecte simple:**
-Chiar dacă aplicația voastră este o clasificare simplă (user upload → classify → display), trebuie să modelați fluxul ca un State Machine. Acest exercițiu vă învață să gândiți modular și să anticipați toate stările posibile (inclusiv erori).
-
-**Legendă obligatorie (scrieți în README):**
-```markdown
-### Justificarea State Machine-ului ales:
-
-Am ales arhitectura [descrieți tipul: monitorizare continuă / clasificare la senzor / 
-predicție batch / control în timp real] pentru că proiectul nostru [explicați nevoia concretă 
-din tabelul Secțiunea 1].
-
-Stările principale sunt:
-1. [STARE_1]: [ce se întâmplă aici - ex: "achiziție 1000 samples/sec de la accelerometru"]
-2. [STARE_2]: [ce se întâmplă aici - ex: "calcul FFT și extragere 50 features frecvență"]
-3. [STARE_3]: [ce se întâmplă aici - ex: "inferență RN cu latență < 50ms"]
-...
-
-Tranzițiile critice sunt:
-- [STARE_A] → [STARE_B]: [când se întâmplă - ex: "când buffer-ul atinge 1024 samples"]
-- [STARE_X] → [ERROR]: [condiții - ex: "când senzorul nu răspunde > 100ms"]
-
-Starea ERROR este esențială pentru că [explicați ce erori pot apărea în contextul 
-aplicației voastre industriale - ex: "senzorul se poate deconecta în mediul industrial 
-cu vibrații și temperatură variabilă, trebuie să gestionăm reconnect automat"].
-
-Bucla de feedback [dacă există] funcționează astfel: [ex: "rezultatul inferenței 
-actualizează parametrii controlerului PID pentru reglarea vitezei motorului"].
 ```
 
 ---
@@ -215,13 +146,12 @@ Toate cele 3 module trebuie să **pornească și să ruleze fără erori** la pr
 **Verificare consistență cu Etapa 3:**
 
 ```
-proiect-rn-[nume-prenume]/
+proiect-rn-Andrei-Patrick/
 ├── data/
 │   ├── raw/
 │   ├── processed/
-│   ├── generated/  # Date originale
 │   ├── train/
-│   ├── validation/
+│   ├── val/
 │   └── test/
 ├── src/
 │   ├── data_acquisition/
@@ -253,32 +183,31 @@ proiect-rn-[nume-prenume]/
 ## Checklist Final – Bifați Totul Înainte de Predare
 
 ### Documentație și Structură
-- [ ] Tabelul Nevoie → Soluție → Modul complet (minimum 2 rânduri cu exemple concrete completate in README_Etapa4_Arhitectura_SIA.md)
+- [X] Tabelul Nevoie → Soluție → Modul complet (minimum 2 rânduri cu exemple concrete completate in README_Etapa4_Arhitectura_SIA.md)
 - [X] Declarație contribuție 40% date originale completată în README_Etapa4_Arhitectura_SIA.md
 - [X] Cod generare/achiziție date funcțional și documentat
-- [ ] Dovezi contribuție originală: grafice + log + statistici în `docs/`
-- [ ] Diagrama State Machine creată și salvată în `docs/state_machine.*`
-- [ ] Legendă State Machine scrisă în README_Etapa4_Arhitectura_SIA.md (minimum 1-2 paragrafe cu justificare)
-- [ ] Repository structurat conform modelului de mai sus (verificat consistență cu Etapa 3)
+- [X] Dovezi contribuție originală: grafice + log + statistici în `docs/`
+- [X] Diagrama State Machine creată și salvată în `docs/state_machine.*`
+- [X] Legendă State Machine scrisă în README_Etapa4_Arhitectura_SIA.md (minimum 1-2 paragrafe cu justificare)
+- [X] Repository structurat conform modelului de mai sus (verificat consistență cu Etapa 3)
 
 ### Modul 1: Data Logging / Acquisition
-- [ ] Cod rulează fără erori (`python src/data_acquisition/...` sau echivalent LabVIEW)
-- [ ] Produce minimum 40% date originale din dataset-ul final
+- [X] Cod rulează fără erori (`python src/data_acquisition/...` sau echivalent LabVIEW)
+- [X] Produce minimum 40% date originale din dataset-ul final
 - [ ] CSV generat în format compatibil cu preprocesarea din Etapa 3
-- [ ] Documentație în `src/data_acquisition/README.md` cu:
-  - [ ] Metodă de generare/achiziție explicată
-  - [ ] Parametri folosiți (frecvență, durată, zgomot, etc.)
-  - [ ] Justificare relevanță date pentru problema voastră
-- [ ] Fișiere în `data/generated/` conform structurii
+- [X] Documentație în `src/data_acquisition/README.md` cu:
+  - [X] Metodă de generare/achiziție explicată
+  - [X] Parametri folosiți (frecvență, durată, zgomot, etc.)
+  - [X] Justificare relevanță date pentru problema voastră
 
 ### Modul 2: Neural Network
-- [ ] Arhitectură RN definită și documentată în cod (docstring detaliat) - versiunea inițială 
-- [ ] README în `src/neural_network/` cu detalii arhitectură curentă
+- [X] Arhitectură RN definită și documentată în cod (docstring detaliat) - versiunea inițială 
+- [X] README în `src/neural_network/` cu detalii arhitectură curentă
 
 ### Modul 3: Web Service / UI
 - [x] Propunere Interfață ce pornește fără erori (comanda de lansare testată)
 - [x] Screenshot demonstrativ în `docs/screenshots/ui_demo.png`
-- [ ] README în `src/app/` cu instrucțiuni lansare (comenzi exacte)
+- [X] README în `src/app/` cu instrucțiuni lansare (comenzi exacte)
 
 ---
 
