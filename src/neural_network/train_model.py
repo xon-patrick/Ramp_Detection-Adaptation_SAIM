@@ -43,12 +43,14 @@ model.train(
     device=device,
     project=str(results_root),
     name=run_name,
-    # rate scheduler 
-    lr0=0.01,           # initial lr
-    lrf=0.01,           # final lr 
-    warmup_epochs=3,   
-    warmup_momentum=0.8,  
-    warmup_bias_lr=0.1, 
+    # Learning rate scheduler
+    lr0=0.01,              # initial learning rate
+    lrf=0.1,               # final lr as fraction of lr0 (final = 0.001)
+    momentum=0.937,        # optimizer 
+    weight_decay=0.0005,   # L2 regularization
+    warmup_epochs=3,       
+    warmup_momentum=0.8,   
+    warmup_bias_lr=0.1,    
 )
 
 # locate latest run folder

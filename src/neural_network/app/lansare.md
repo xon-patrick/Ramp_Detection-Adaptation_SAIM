@@ -13,7 +13,7 @@ pip install streamlit ultralytics pillow
 - Lansare aplicație Streamlit:
 
 ```bash
-python -m streamlit run src/neural_network/app/UI.py
+python -m streamlit run src/neural_network/app/app.py
 ```
 
 - Observații:
