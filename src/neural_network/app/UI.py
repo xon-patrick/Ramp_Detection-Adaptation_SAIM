@@ -9,14 +9,13 @@ st.set_page_config(page_title="Ramp Detection", layout="wide")
 st.title("SAIM Ramp Detection – YOLOv8")
 
 
-# @st.cache_resource
-# def load_model():
-#     model_path = Path(__file__).resolve().parent.parent / "models" / "best.pt"
-#     return YOLO(str(model_path))
-
 @st.cache_resource
 def load_model():
-    model_path = Path(__file__).resolve().parent.parent / "runs" / "train" / "exp_20260110_125217" / "weights" / "best.pt"
+#     model_path = Path(__file__).resolve().parent.parent / "models" / "best.pt"
+#     return YOLO(str(model_path))
+    # model_path = Path(__file__).resolve().parent.parent / "runs" / "train" / "exp_20260110_125217" / "weights" / "best.pt"
+    # return YOLO(str(model_path))
+    model_path = Path(__file__).resolve().parent.parent.parent.parent / "trained_models" / "model_003_best.onnx"
     return YOLO(str(model_path))
 
 

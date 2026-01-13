@@ -13,20 +13,20 @@ def ensure_dir(p: Path):
     p.mkdir(parents=True, exist_ok=True)
 
 
-# project root two levels up from this script (workspace root)
+# workspace root
 project_root = Path(__file__).resolve().parents[2]
 results_root = Path(__file__).resolve().parent / "runs" / "train"
 trained_models_dir = project_root / "trained_models"
 ensure_dir(results_root)
 ensure_dir(trained_models_dir)
 
-# choose device
+#  device
+# device = "cpu"
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
-# initialize model (use a small backbone by default)
+
 model = YOLO("yolov8n.pt")
 
-# unique run name with timestamp
 run_name = datetime.now().strftime("exp_%Y%m%d_%H%M%S")
 
 # train
@@ -43,6 +43,12 @@ model.train(
     device=device,
     project=str(results_root),
     name=run_name,
+    # rate scheduler 
+    lr0=0.01,           # initial lr
+    lrf=0.01,           # final lr 
+    warmup_epochs=3,   
+    warmup_momentum=0.8,  
+    warmup_bias_lr=0.1, 
 )
 
 # locate latest run folder
@@ -56,10 +62,10 @@ for d in candidate_dirs:
 if run_dir is None:
     raise RuntimeError("Could not find training run directory under runs/train")
 
-# prepare results folder inside run_dir
+
 results_dir = run_dir
 
-# Find metrics CSV (ultralytics usually saves metrics.csv or results.csv)
+# csv
 metrics_csv = None
 for pattern in ("metrics.csv", "results.csv", "metrics*.csv", "*.csv"):
     found = list(results_dir.rglob(pattern))

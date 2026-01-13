@@ -410,23 +410,23 @@ streamlit run src/app/main.py
 - [X] Verificat: predicțiile sunt diferite față de Etapa 4 (când erau random)
 
 ### Documentație Nivel 2 (dacă aplicabil)
-- [ ] Early stopping implementat și documentat în cod
-- [ ] Learning rate scheduler folosit (ReduceLROnPlateau / StepLR)
+- [X] Early stopping implementat și documentat în cod ( gasit in /src/neural_network/train_model.py [patience = 10])
+- [X] Learning rate scheduler folosit (ReduceLROnPlateau / StepLR)
 - [ ] Augmentări relevante domeniu aplicate (NU rotații simple!)
-- [ ] Grafic loss/val_loss salvat în `docs/loss_curve.png`
+- [X] Grafic loss/val_loss salvat în `docs/loss_curve.png`
 - [ ] Analiză erori în context industrial completată (4 întrebări răspunse)
-- [ ] Metrici Nivel 2: **Accuracy ≥75%**, **F1 ≥0.70**
+- [X] Metrici Nivel 2: **Accuracy ≥75%**, **F1 ≥0.70**
 
 ### Documentație Nivel 3 Bonus (dacă aplicabil)
 - [ ] Comparație 2+ arhitecturi (tabel comparativ + justificare)
-- [ ] Export ONNX/TFLite + benchmark latență (<50ms demonstrat)
+- [X] Export ONNX/TFLite + benchmark latență (<50ms demonstrat)
 - [ ] Confusion matrix + analiză 5 exemple greșite cu implicații
 
 ### Verificări Tehnice
-- [ ] `requirements.txt` actualizat cu toate bibliotecile noi
-- [ ] Toate path-urile RELATIVE (nu absolute: `/Users/...` )
-- [ ] Cod nou comentat în limba română sau engleză (minimum 15%)
-- [ ] `git log` arată commit-uri incrementale (NU 1 commit gigantic)
+- [X] `requirements.txt` actualizat cu toate bibliotecile noi
+- [X] Toate path-urile RELATIVE (nu absolute: `/Users/...` )
+- [X] Cod nou comentat în limba română sau engleză (minimum 15%)
+- [X] `git log` arată commit-uri incrementale (NU 1 commit gigantic)
 - [ ] Verificare anti-plagiat: toate punctele 1-5 respectate
 
 ### Verificare State Machine (Etapa 4)
@@ -440,7 +440,7 @@ streamlit run src/app/main.py
 - [ ] Commit: `"Etapa 5 completă – Accuracy=X.XX, F1=X.XX"`
 - [ ] Tag: `git tag -a v0.5-model-trained -m "Etapa 5 - Model antrenat"`
 - [ ] Push: `git push origin main --tags`
-- [ ] Repository accesibil (public sau privat cu acces profesori)
+- [X] Repository accesibil (public sau privat cu acces profesori)
 
 ---
 
@@ -480,7 +480,7 @@ Exemplu:
 ## Predare și Contact
 
 **Predarea se face prin:**
-1. Commit pe GitHub: `"Etapa 5 completă – Accuracy=X.XX, F1=X.XX"`
+1. Commit pe GitHub: `"Etapa 5 completă – Accuracy=8.31 F1= 7.67`
 2. Tag: `git tag -a v0.5-model-trained -m "Etapa 5 - Model antrenat"`
 3. Push: `git push origin main --tags`
 
