@@ -3,7 +3,7 @@
 ## 1. Metoda de generare / achiziție a datelor
 Datele utilizate în acest proiect au fost obținute prin intermediul ROS2 bag, folosind funcționalitatea nativă de înregistrare a mesajelor publicate de robot în timpul rulării acestuia într-un scenariu real sau simulat. În timpul execuției, au fost înregistrate mai multe topicuri senzoriale, cu accent principal pe camera RGB, care furnizează informația vizuală necesară pentru detectarea rampei din calea robotului.
 
-Ulterior, datele au fost procesate offline folosind un script Python care extrage direct imaginile la rularea  prin comanda `ros2 bag play <nume_fisier>` fisierului `.mcap` generat de `ros2 bag`. Scriptul identifică topicul de interes (`/camera/image_raw`), deserializează mesajele ROS2 de tip imagine comprimată și extrage cadrele la un interval de timp prestabilit. Imaginile sunt decodate folosind `OpenCV` și salvate pe disc sub formă de fișiere `.png`, pentru a fi utilizate ulterior în etapele de antrenare și testare ale rețelei neuronale.
+Ulterior, datele au fost procesate offline folosind un script Python care accesează direct fișierul `.db3` generat de `ros2 bag`. Scriptul identifică topicul de interes (`/camera/image_raw/compressed`), deserializează mesajele ROS2 de tip imagine comprimată și extrage cadrele la un interval de timp prestabilit. Imaginile sunt decodate folosind `OpenCV` și salvate pe disc sub formă de fișiere `.png`, pentru a fi utilizate ulterior în etapele de antrenare și testare ale rețelei neuronale.
 
 Această abordare permite reproducibilitate, analiză offline și decuplarea procesului de achiziție a datelor de cel de procesare și inferență.
 
@@ -14,22 +14,22 @@ Această abordare permite reproducibilitate, analiză offline și decuplarea pro
 Principalii parametri utilizați în procesul de extragere a datelor sunt:
 
 Fișiere ros2 bag:
-`rosbag2_data_ora.mcap`
+`rosbag2_data_ora.db3`
 (conține date brute colectate de la senzorii robotului)
 
 Topicul imaginii:
-`/camera/image_raw` & `/camera/image_raw/compressedd`
+`/camera/image_raw/compressed`
 (imagini RGB comprimate, format JPEG/PNG)
 
-Interval de eșantionare cadre (`--interval`):
-`ex: 5.0 secunde`
+Interval de eșantionare cadre (`FRAME_INTERVAL`):
+`5.0 secunde`
 → se salvează o imagine la fiecare 5 secunde pentru a reduce redundanța și volumul de date
 
 Format imagine salvat:
 `.png` (fără pierderi, potrivit pentru procesare ulterioară)
 
 Director de ieșire:
-`data/raw/` & `data/raw/new`(pentru imaginilie noi)
+`data/raw/`
 
 Validări aplicate:
 
@@ -40,20 +40,7 @@ verificarea decodării corecte a imaginii OpenCV
 Achiziția inițială a datelor din ros2 bag păstrează frecvența originală a camerei, iar subsampling-ul este realizat ulterior în faza de procesare offline.
 
 ---
-## 3. Rulare:
-Se ruleaza `bag`-ul dorit:
-```bash
-source /opt/ros/<distro>/setup.bash
-ros2 bag play <your-bag-file>.mcap
-```
-
-Apoi se ruleaza extragerea cu optiunile dorite:
-```bash
-python3 src/data_acquisition/extract_from_bag.py --output data/raw/new --topic /camera/image_raw --interval 10
-```
-
----
-## 4. Justificarea relevanței datelor pentru problemă
+## 3. Justificarea relevanței datelor pentru problemă
 
 Datele vizuale colectate de la camera RGB sunt esențiale pentru problema abordată, respectiv detecția și urmărirea unei rampe de către un robot mobil folosind o rețea neuronală. Rampa reprezintă un element geometric și vizual distinct, a cărui identificare se bazează pe textură, muchii, perspectivă și variații de lumină, informații care pot fi extrase eficient din imagini RGB.
 
