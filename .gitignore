@@ -1,0 +1,55 @@
+# Python virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+*.mmd
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+# Training outputs
+runs/
+wandb/
+
+# Dataset files (if large)
+# Uncomment if you want to exclude datasets:
+# data/raw/
+# data/test/images/
+# data/train/images/
+# data/valid/images/
+
+
+# Logs
+*.log
+
+# Environment variables
+.env
+.env.local

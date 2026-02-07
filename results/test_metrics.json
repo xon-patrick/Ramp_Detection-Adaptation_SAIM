@@ -1,0 +1,31 @@
+{
+  "test_accuracy": 0.807,
+  "test_f1_macro": 0.775,
+  "test_precision_macro": 0.783,
+  "test_recall_macro": 0.771,
+  "map50": 0.807,
+  "map": 0.638,
+  "per_class": {
+    "rampDown": {
+      "precision": 0.918,
+      "recall": 0.95,
+      "mAP50": 0.987,
+      "mAP50-95": 0.756
+    },
+    "rampUp": {
+      "precision": 0.724,
+      "recall": 1.0,
+      "mAP50": 0.955,
+      "mAP50-95": 0.858
+    },
+    "ramps-railing": {
+      "precision": 0.706,
+      "recall": 0.364,
+      "mAP50": 0.479,
+      "mAP50-95": 0.3
+    }
+  },
+  "inference_speed_ms": 23.0,
+  "fps": 43.5,
+  "note": "Model trained on 236 images with YOLOv8m"
+}
