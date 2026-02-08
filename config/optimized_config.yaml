@@ -1,0 +1,63 @@
+base:
+  model_architecture: yolov8m
+  imgsz: 640
+  epochs: 60
+  batch: 4
+  patience: 15
+  lr0: 0.005
+  lrf: 0.01
+  warmup_epochs: 3
+  save_period: 5
+  seed: 42
+  device: 0
+  augmentation:
+    hsv_h: 0.015
+    hsv_s: 0.7
+    hsv_v: 0.4
+    degrees: 20
+    translate: 0.1
+    scale: 0.3
+    flipud: 0.5
+    fliplr: 0.5
+    mosaic: 1.0
+    perspective: 0.0002
+    shear: 5
+experiments:
+- id: baseline
+  name: baseline
+  changes: Configuratie Etapa 5
+  overrides: {}
+  notes: Referinta
+- id: exp1
+  name: lr_lower
+  changes: lr0 0.005 -> 0.003
+  overrides:
+    lr0: 0.003
+    warmup_epochs: 5
+  notes: Stabilizare fine-tuning
+- id: exp2
+  name: lr_higher
+  changes: lr0 0.005 -> 0.0075
+  overrides:
+    lr0: 0.0075
+  notes: Convergenta mai rapida
+- id: exp3
+  name: batch_8
+  changes: batch 4 -> 8
+  overrides:
+    batch: 8
+  notes: Gradiente mai stabile daca GPU permite
+- id: exp4
+  name: aug_stronger
+  changes: augmentari mai agresive (perspective, hsv_v, degrees)
+  overrides:
+    augmentation:
+      perspective: 0.001
+      hsv_v: 0.6
+      degrees: 30
+  notes: Robustete la iluminare si inclinare
+selected_experiment:
+  name: baseline
+  accuracy: 0.8043478346556752
+  f1_macro: 0.8130865370433437
+  onnx_model: models/optimized_model_v1.onnx

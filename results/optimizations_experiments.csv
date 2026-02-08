@@ -1,0 +1,6 @@
+exp_id,name,changes,accuracy,f1_macro,precision_macro,recall_macro,train_time_sec,status,notes
+baseline,baseline,Configuratie Etapa 5,0.8043478346556752,0.8130865370433437,0.8292620230508027,0.7998033896543789,2657.3114055799997,ok,Referinta
+exp1,lr_lower,lr0 0.005 -> 0.003,0.8002744006565101,0.7952961582936048,0.8212408227968676,0.7801157816513987,2667.449672802999,ok,Stabilizare fine-tuning
+exp2,lr_higher,lr0 0.005 -> 0.0075,0.8043478346556752,0.8130865370433437,0.8292620230508027,0.7998033896543789,2652.933934214998,ok,Convergenta mai rapida
+exp3,batch_8,batch 4 -> 8,,,,,,failed,Model weights missing
+exp4,aug_stronger,"augmentari mai agresive (perspective, hsv_v, degrees)",0.7763730971544293,0.7236344321286946,0.7648360638516124,0.7184951995446242,2655.262930148001,ok,Robustete la iluminare si inclinare

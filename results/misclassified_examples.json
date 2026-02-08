@@ -1,0 +1,48 @@
+{
+  "examples": [
+    {
+      "image": "data/test/images/camera_image_raw_compressed-1765214693-530702949_png.rf.a2f28a1888e3f713fedf0d870256e24f.jpg",
+      "gt_class": "ramps-railing",
+      "pred_class": "none",
+      "iou": 0.0,
+      "conf": 0.0,
+      "causes": [
+        "obiect mic in cadru",
+        "dezechilibru de clasa"
+      ]
+    },
+    {
+      "image": "data/test/images/camera_image_raw_compressed-1765214693-530702949_png.rf.a2f28a1888e3f713fedf0d870256e24f.jpg",
+      "gt_class": "ramps-railing",
+      "pred_class": "none",
+      "iou": 0.0,
+      "conf": 0.0,
+      "causes": [
+        "obiect mic in cadru",
+        "dezechilibru de clasa"
+      ]
+    },
+    {
+      "image": "data/test/images/camera_image_raw_compressed-1765214693-530702949_png.rf.a2f28a1888e3f713fedf0d870256e24f.jpg",
+      "gt_class": "ramps-railing",
+      "pred_class": "none",
+      "iou": 0.0,
+      "conf": 0.0,
+      "causes": [
+        "obiect mic in cadru",
+        "dezechilibru de clasa"
+      ]
+    },
+    {
+      "image": "data/test/images/camera_image_raw_compressed-1765214693-530702949_png.rf.a2f28a1888e3f713fedf0d870256e24f.jpg",
+      "gt_class": "ramps-railing",
+      "pred_class": "none",
+      "iou": 0.0,
+      "conf": 0.0,
+      "causes": [
+        "obiect mic in cadru",
+        "dezechilibru de clasa"
+      ]
+    }
+  ]
+}

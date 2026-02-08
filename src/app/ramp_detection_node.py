@@ -33,7 +33,7 @@ class RampDetectionNode(Node):
     def __init__(self):
         super().__init__("ramp_detection_node")
 
-        self.declare_parameter("model_path", "models/trained_model_v1.onnx")
+        self.declare_parameter("model_path", "models/optimized_model_v1.onnx")
         self.declare_parameter("confidence_threshold", 0.5)
         self.declare_parameter("image_topic", "/camera/image_raw/compressed")
         self.declare_parameter("map_frame", "map")
