@@ -11,7 +11,7 @@ st.title("SAIM Ramp Detection – YOLOv8")
 
 @st.cache_resource
 def load_model():
-    model_path = Path(__file__).resolve().parents[3] / "models" / "trained_model_v1.onnx"
+    model_path = Path(__file__).resolve().parents[3] / "models" / "optimized_model_v1.onnx"
     return YOLO(str(model_path))
 
 

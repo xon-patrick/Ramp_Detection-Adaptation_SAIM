@@ -1,0 +1,12 @@
+# Requirements for ramp_detection_node.py
+# ROS2 dependencies (install via apt):
+# - ros-<distro>-rclpy
+# - ros-<distro>-sensor-msgs
+# - ros-<distro>-visualization-msgs
+# - ros-<distro>-cv-bridge
+# - ros-<distro>-tf2-ros
+
+# Python dependencies (install via pip):
+ultralytics>=8.0.0
+opencv-python>=4.7.0
+numpy>=1.23.0
