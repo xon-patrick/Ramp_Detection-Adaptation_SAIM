@@ -612,6 +612,8 @@ Prioritizez data collection mai agresiiva la bun inceput (minimum 500-800 imagin
 
 5. Vinicio Alejandro Rosas-Cervamtes, Quoc-Dong Hoang, Soon-Geul Lee, Jae-Hwan Choi. Multi-Robot 2.5D Localization and Mapping Using a Monte Carlo Algorithm on a Multi-Level Surface. 21(13),4588, 2021 .https://doi.org/10.3390/s21134588?urlappend=%3Futm_source%3Dresearchgate.net%26utm_medium%3Darticle
 
+6. Common Objects in Context weights (transfer learning din YOLO) https://cocodataset.org/#home
+
 
 ---
 
